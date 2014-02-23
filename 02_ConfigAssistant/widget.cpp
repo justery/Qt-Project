@@ -12,6 +12,180 @@
 #include <QContextMenuEvent>
 #include <QTreeWidgetItem>
 
+DeviceInfoWidget::DeviceInfoWidget(const QString& name, QWidget *parent) :
+    QWidget(parent),m_treeWgt(NULL),m_tableWgt(NULL),m_name(name)
+{
+    m_treeWgt = new QTreeWidget(this);
+    QTreeWidgetItem* root = new QTreeWidgetItem(QStringList()<<"New Area");
+    m_treeWgt->addTopLevelItem(root);
+    m_treeWgt->setHeaderLabel(name);
+
+    m_treeWgt->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(m_treeWgt, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(customContextMenuRequest(const QPoint &)));
+
+    //connect(m_treeWgt, SIGNAL(itemPressed(QTreeWidgetItem *, int)),
+    //        this, SLOT(treeItemClicked(QTreeWidgetItem *, int)));
+
+    //itemPressed
+    for (int i=0; i<2; ++i)
+    {
+        root->addChild(new QTreeWidgetItem(QStringList()<<
+                                           QString("node").sprintf("Node%d",i+1)));
+    }
+    m_treeWgt->expandAll();
+
+    m_tableWgt = new QTableWidget(1,3);
+    m_tableWgt->setHorizontalHeaderLabels(QStringList()<<"Address"<<"Name"<<"Description");
+
+    QSplitter * splitter = new QSplitter(this);
+    splitter->addWidget(m_treeWgt);
+    splitter->addWidget(m_tableWgt);
+    splitter->setStretchFactor(1,1);
+
+    splitter->resize(sizeHint());
+}
+
+QSize DeviceInfoWidget::sizeHint() const
+{
+    QDesktopWidget* desktopWidget = QApplication::desktop();
+    QRect clientRect = desktopWidget->availableGeometry();//
+
+    return QSize(clientRect.width()-16,clientRect.height()/2-72);
+}
+
+
+
+void DeviceInfoWidget::customContextMenuRequest(const QPoint & pos)
+{
+    QTreeWidgetItem* item = m_treeWgt->itemAt(pos);
+    qDebug()<<m_treeWgt->headerItem()->text(0);
+    if(NULL == item)
+    {
+        return ;
+    }
+
+    QMenu *menu = new QMenu(this);
+    if (NULL == item->parent())
+    {// proj-name
+        QAction *act = new QAction(tr("&Collapse"),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Add Areas..."),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Add Lines..."),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Add Devices..."),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Copy"),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Properties"),this);
+        menu->addAction(act);
+    }
+
+    if (item->text(0)!="")
+    {
+        qDebug() << item->text(0);
+    }
+
+    //qDebug() << pos;
+    //qDebug() << mapToGlobal(pos);
+    menu->exec(mapToGlobal(pos+QPoint(5,26)));//convert to screen corr-system
+    delete menu;
+}
+
+GroupInfoWidget::GroupInfoWidget(const QString& name, QWidget *parent) :
+    QWidget(parent),m_treeWgt(NULL),m_tableWgt(NULL),m_name(name)
+{
+    m_treeWgt = new QTreeWidget(this);
+    QTreeWidgetItem* root = new QTreeWidgetItem(QStringList()<<name);
+    m_treeWgt->addTopLevelItem(root);
+    m_treeWgt->setHeaderLabel("");
+
+    m_treeWgt->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(m_treeWgt, SIGNAL(customContextMenuRequested(const QPoint &)),
+            this, SLOT(customContextMenuRequest(const QPoint &)));
+
+    //connect(m_treeWgt, SIGNAL(itemPressed(QTreeWidgetItem *, int)),
+    //        this, SLOT(treeItemClicked(QTreeWidgetItem *, int)));
+
+    //itemPressed
+    for (int i=0; i<10; ++i)
+    {
+        root->addChild(new QTreeWidgetItem(QStringList()<<
+                                           QString("").sprintf("Node%d",i+1)));
+    }
+    m_treeWgt->expandAll();
+
+    m_tableWgt = new QTableWidget(1,4);
+    m_tableWgt->setHorizontalHeaderLabels(QStringList()<<"Address"<<"Name"<<"Description"<<"Pass through Line Coupler");
+
+    QSplitter * splitter = new QSplitter(this);
+    splitter->addWidget(m_treeWgt);
+    splitter->addWidget(m_tableWgt);
+    splitter->setStretchFactor(1,1);
+
+    splitter->resize(sizeHint());
+}
+
+QSize GroupInfoWidget::sizeHint() const
+{
+    QDesktopWidget* desktopWidget = QApplication::desktop();
+    QRect clientRect = desktopWidget->availableGeometry();//
+
+    return QSize(clientRect.width()-16,clientRect.height()/2-72);
+}
+
+
+void GroupInfoWidget::customContextMenuRequest(const QPoint & pos)
+{
+    QTreeWidgetItem* item = m_treeWgt->itemAt(pos);
+    if(NULL == item)
+    {
+        return ;
+    }
+
+    QMenu *menu = new QMenu(this);
+    if (NULL == item->parent())
+    {
+        QAction *act = new QAction(tr("&Collapse"),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Add Areas..."),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Add Lines..."),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Add Devices..."),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Copy"),this);
+        menu->addAction(act);
+
+        act = new QAction(tr("&Properties"),this);
+        menu->addAction(act);
+    }
+    else if (item->text(0)=="")
+    {
+        //
+    }
+
+
+    qDebug() << pos;
+    qDebug() << mapToGlobal(pos);
+    menu->exec(mapToGlobal(pos+QPoint(5,26)));
+    delete menu;
+}
+
+
+#if 1
 Widget::Widget(const QString& name, QWidget *parent) :
     QWidget(parent),m_treeWgt(NULL),m_tableWgt(NULL),m_name(name)
 {
@@ -55,81 +229,50 @@ QSize Widget::sizeHint() const
     return QSize(clientRect.width()-16,clientRect.height()/2-72);
 }
 
-#if 0
-void Widget::contextMenuEvent(QContextMenuEvent* e)
-{
-    QMenu *menu = new QMenu();
 
-
-    QAction *act = new QAction(tr("&Collapse"),this);
-    menu->addAction(act);
-
-    act = new QAction(tr("&Add Areas..."),this);
-    menu->addAction(act);
-
-    act = new QAction(tr("&Add Lines..."),this);
-    menu->addAction(act);
-
-    act = new QAction(tr("&Add Devices..."),this);
-    menu->addAction(act);
-
-    act = new QAction(tr("&Copy"),this);
-    menu->addAction(act);
-
-    act = new QAction(tr("&Properties"),this);
-    menu->addAction(act);
-
-    menu->addSeparator();
-
-    menu->addSeparator();
-
-    //menu->addAction(Act_Maxsize);
-
-    menu->addSeparator();
-
-    menu->addSeparator();
-
-    //menu->addAction(Act_Normal);
-
-    menu->addSeparator();
-
-    menu->addSeparator();
-
-    menu->exec(e->globalPos());
-
-    delete menu;
-
-}
-#endif
-
-//void Widget::treeItemClicked(QTreeWidgetItem * treeItem, int col)
+//void Widget::contextMenuEvent(QContextMenuEvent* e)
 //{
-//    qDebug() << treeItem->text(0);
-
 //    QMenu *menu = new QMenu();
-//    if (NULL == treeItem->parent())
-//    {
-//        QAction *act = new QAction(tr("&Collapse"),this);
-//        menu->addAction(act);
 
-//        act = new QAction(tr("&Add Areas..."),this);
-//        menu->addAction(act);
 
-//        act = new QAction(tr("&Add Lines..."),this);
-//        menu->addAction(act);
+//    QAction *act = new QAction(tr("&Collapse"),this);
+//    menu->addAction(act);
 
-//        act = new QAction(tr("&Add Devices..."),this);
-//        menu->addAction(act);
+//    act = new QAction(tr("&Add Areas..."),this);
+//    menu->addAction(act);
 
-//        act = new QAction(tr("&Copy"),this);
-//        menu->addAction(act);
+//    act = new QAction(tr("&Add Lines..."),this);
+//    menu->addAction(act);
 
-//        act = new QAction(tr("&Properties"),this);
-//        menu->addAction(act);
-//    }
+//    act = new QAction(tr("&Add Devices..."),this);
+//    menu->addAction(act);
 
-//    menu->exec(cursor().pos());
+//    act = new QAction(tr("&Copy"),this);
+//    menu->addAction(act);
+
+//    act = new QAction(tr("&Properties"),this);
+//    menu->addAction(act);
+
+//    menu->addSeparator();
+
+//    menu->addSeparator();
+
+//    //menu->addAction(Act_Maxsize);
+
+//    menu->addSeparator();
+
+//    menu->addSeparator();
+
+//    //menu->addAction(Act_Normal);
+
+//    menu->addSeparator();
+
+//    menu->addSeparator();
+
+//    menu->exec(e->globalPos());
+
 //    delete menu;
+
 //}
 
 void Widget::customContextMenuRequest(const QPoint & pos)
@@ -178,3 +321,35 @@ void Widget::customContextMenuRequest(const QPoint & pos)
     menu->exec(mapToGlobal(pos+QPoint(5,26)));
     delete menu;
 }
+
+#endif
+
+//void Widget::treeItemClicked(QTreeWidgetItem * treeItem, int col)
+//{
+//    qDebug() << treeItem->text(0);
+
+//    QMenu *menu = new QMenu();
+//    if (NULL == treeItem->parent())
+//    {
+//        QAction *act = new QAction(tr("&Collapse"),this);
+//        menu->addAction(act);
+
+//        act = new QAction(tr("&Add Areas..."),this);
+//        menu->addAction(act);
+
+//        act = new QAction(tr("&Add Lines..."),this);
+//        menu->addAction(act);
+
+//        act = new QAction(tr("&Add Devices..."),this);
+//        menu->addAction(act);
+
+//        act = new QAction(tr("&Copy"),this);
+//        menu->addAction(act);
+
+//        act = new QAction(tr("&Properties"),this);
+//        menu->addAction(act);
+//    }
+
+//    menu->exec(cursor().pos());
+//    delete menu;
+//}

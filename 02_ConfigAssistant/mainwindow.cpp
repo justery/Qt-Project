@@ -180,8 +180,8 @@ void MainWindow::newProject()
     qDebug()<<"checkBox isChecked:"<<dialog.ui->checkBox->isChecked();
 
     //generate two tree
-    Widget * devInfo = new Widget(dialog.ui->lineEdit->text());
-    Widget * groupInfo = new Widget("Maingroups");
+    DeviceInfoWidget * devInfo = new DeviceInfoWidget(dialog.ui->lineEdit->text());
+    GroupInfoWidget * groupInfo = new GroupInfoWidget("Maingroups");
 
     QSizePolicy sp;
     sp.setHorizontalStretch(1);
