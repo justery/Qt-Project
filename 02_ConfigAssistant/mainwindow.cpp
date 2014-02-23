@@ -190,7 +190,6 @@ void MainWindow::newProject()
     devInfo->setSizePolicy(sp);
     groupInfo->setSizePolicy(sp);
 
-
     QMdiSubWindow* devInfoSubWin = m_mdiArea->addSubWindow(devInfo);
     QMdiSubWindow* groupInfoSubWin = m_mdiArea->addSubWindow(groupInfo);
     devInfoSubWin->setAttribute(Qt::WA_DeleteOnClose);

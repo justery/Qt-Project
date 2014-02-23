@@ -43,9 +43,10 @@ public slots:
     void customContextMenuRequest(const QPoint &);
 
 private:
-   QTreeWidget *m_treeWgt;
-   QTableWidget *m_tableWgt;
-   QString  m_name;
+   QTreeWidget      *m_treeWgt;
+   QTableWidget     *m_tableWgt;
+   QTreeWidgetItem  *m_treeRoot;
+   QString          m_name;
 };
 
 //widget for group info
