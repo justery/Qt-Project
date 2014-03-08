@@ -1,9 +1,9 @@
 ﻿#include "newprojectdialog.h"
 #include "ui_NewProjectDialog.h"
 
-NewProjectDialog::NewProjectDialog(QDialog *parent) :
-    QDialog(parent),
-    ui(new Ui::NewProjDialog)
+NewProjectDialog::NewProjectDialog(QDialog *parent)
+    : QDialog(parent),
+      ui(new Ui::NewProjDialog)
 {
     ui->setupUi(this);
     ui->comboBox->insertItem(0,"TP");

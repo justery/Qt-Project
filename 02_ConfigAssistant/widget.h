@@ -23,6 +23,7 @@ signals:
 public slots:
     //void treeItemClicked(QTreeWidgetItem *, int);
     void customContextMenuRequest(const QPoint &);
+
 private:
    QTreeWidget *m_treeWgt;
    QTableWidget *m_tableWgt;
@@ -41,12 +42,15 @@ signals:
 
 public slots:
     void customContextMenuRequest(const QPoint &);
+    void popEditPropertyDialog(bool);
 
 private:
    QTreeWidget      *m_treeWgt;
    QTableWidget     *m_tableWgt;
    QTreeWidgetItem  *m_treeRoot;
    QString          m_name;
+   QString          m_editPropDialogName;
+   QString          m_editPropTab1Name;
 };
 
 //widget for group info

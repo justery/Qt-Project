@@ -1,4 +1,7 @@
 ﻿#include "widget.h"
+#include "editpropertydialog.h"
+#include "ui_EditProperty.h"
+
 //test git
 #include <QTreeWidget>
 #include <QTableWidget>
@@ -150,7 +153,11 @@ void DeviceInfoWidget::customContextMenuRequest(const QPoint & pos)
         menu->addAction(act);
 
         act = new QAction(tr("&Properties"),this);
+        connect(act,SIGNAL(triggered(bool)),this,SLOT(popEditPropertyDialog(bool)));
         menu->addAction(act);
+
+        m_editPropDialogName = tr("New Area");
+        m_editPropTab1Name = tr("Area");
     }
     else
     {
@@ -182,7 +189,11 @@ void DeviceInfoWidget::customContextMenuRequest(const QPoint & pos)
             menu->addAction(act);
 
             act = new QAction(tr("&Properties"),this);
+            connect(act,SIGNAL(triggered(bool)),this,SLOT(popEditPropertyDialog(bool)));
             menu->addAction(act);
+
+            m_editPropDialogName = tr("New Line");
+            m_editPropTab1Name = tr("Line");
         }
     }
 
@@ -191,6 +202,13 @@ void DeviceInfoWidget::customContextMenuRequest(const QPoint & pos)
     menu->exec(mapToGlobal(pos+QPoint(5,10)));//convert to screen corr-system
     delete menu;
 #endif
+}
+
+void DeviceInfoWidget::popEditPropertyDialog(bool flag)
+{
+    EditPropertyDialog dialog(m_editPropDialogName,m_editPropTab1Name);
+    dialog.exec();
+    int c ;
 }
 
 
@@ -407,18 +425,13 @@ void Widget::customContextMenuRequest(const QPoint & pos)
         //
     }
 
-//    QPoint	mapFrom(const QWidget * parent, const QPoint & pos) const
-//    QPoint	mapFromGlobal(const QPoint & pos) const
-//    QPoint	mapFromParent(const QPoint & pos) const
-//    QPoint	mapTo(const QWidget * parent, const QPoint & pos) const
-//    QPoint	mapToGlobal(const QPoint & pos) const
-//    QPoint	mapToParent(const QPoint & pos) const
-
     qDebug() << pos;
     qDebug() << mapToGlobal(pos);
     menu->exec(mapToGlobal(pos+QPoint(5,26)));
     delete menu;
 }
+
+
 
 #endif
 

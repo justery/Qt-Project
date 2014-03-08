@@ -15,11 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
     widget.cpp \
     newprojectdialog.cpp\
-    mainwindow.cpp
+    mainwindow.cpp \
+    editpropertydialog.cpp
 
 HEADERS  += mainwindow.h \
     widget.h \
-    newprojectdialog.h
+    newprojectdialog.h \
+    editpropertydialog.h
 
 FORMS += \
-    NewProjectDialog.ui
+    NewProjectDialog.ui \
+    EditProperty.ui
