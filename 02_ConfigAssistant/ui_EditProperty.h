@@ -17,7 +17,6 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFormLayout>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -31,7 +30,6 @@ QT_BEGIN_NAMESPACE
 class Ui_EditPropertyDialog
 {
 public:
-    QHBoxLayout *horizontalLayout;
     QTabWidget *tabWidget;
     QWidget *tab;
     QWidget *formLayoutWidget;
@@ -41,9 +39,9 @@ public:
     QLabel *label_2;
     QLineEdit *lineEdit;
     QLabel *label_3;
-    QTextEdit *textEdit;
     QLabel *label_4;
     QComboBox *comboBox;
+    QTextEdit *textEdit;
     QWidget *tab_2;
     QCheckBox *checkBox;
     QTextEdit *textEdit_2;
@@ -55,20 +53,32 @@ public:
         if (EditPropertyDialog->objectName().isEmpty())
             EditPropertyDialog->setObjectName(QStringLiteral("EditPropertyDialog"));
         EditPropertyDialog->setEnabled(true);
-        EditPropertyDialog->resize(344, 234);
-        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        EditPropertyDialog->resize(300, 213);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(EditPropertyDialog->sizePolicy().hasHeightForWidth());
         EditPropertyDialog->setSizePolicy(sizePolicy);
-        horizontalLayout = new QHBoxLayout(EditPropertyDialog);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setSizeConstraint(QLayout::SetFixedSize);
+        EditPropertyDialog->setMinimumSize(QSize(300, 80));
+        EditPropertyDialog->setAutoFillBackground(false);
         tabWidget = new QTabWidget(EditPropertyDialog);
         tabWidget->setObjectName(QStringLiteral("tabWidget"));
         tabWidget->setEnabled(true);
+        tabWidget->setGeometry(QRect(0, 0, 300, 221));
+        sizePolicy.setHeightForWidth(tabWidget->sizePolicy().hasHeightForWidth());
+        tabWidget->setSizePolicy(sizePolicy);
+        tabWidget->setMinimumSize(QSize(180, 80));
+        tabWidget->setMaximumSize(QSize(300, 250));
+        tabWidget->setSizeIncrement(QSize(0, 0));
+        tabWidget->setBaseSize(QSize(0, 0));
+        tabWidget->setCursor(QCursor(Qt::CrossCursor));
+        tabWidget->setMouseTracking(false);
         tabWidget->setFocusPolicy(Qt::TabFocus);
+        tabWidget->setAutoFillBackground(true);
+        tabWidget->setTabPosition(QTabWidget::North);
+        tabWidget->setTabShape(QTabWidget::Rounded);
         tabWidget->setElideMode(Qt::ElideNone);
+        tabWidget->setUsesScrollButtons(false);
         tabWidget->setDocumentMode(false);
         tabWidget->setTabsClosable(false);
         tabWidget->setMovable(false);
@@ -76,9 +86,11 @@ public:
         tab->setObjectName(QStringLiteral("tab"));
         sizePolicy.setHeightForWidth(tab->sizePolicy().hasHeightForWidth());
         tab->setSizePolicy(sizePolicy);
+        tab->setMinimumSize(QSize(300, 80));
+        tab->setCursor(QCursor(Qt::CrossCursor));
         formLayoutWidget = new QWidget(tab);
         formLayoutWidget->setObjectName(QStringLiteral("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(0, 0, 311, 181));
+        formLayoutWidget->setGeometry(QRect(0, 0, 431, 221));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setObjectName(QStringLiteral("formLayout"));
         formLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
@@ -105,6 +117,8 @@ public:
 
         lineEdit = new QLineEdit(formLayoutWidget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        sizePolicy1.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
+        lineEdit->setSizePolicy(sizePolicy1);
 
         formLayout->setWidget(2, QFormLayout::FieldRole, lineEdit);
 
@@ -112,16 +126,6 @@ public:
         label_3->setObjectName(QStringLiteral("label_3"));
 
         formLayout->setWidget(3, QFormLayout::LabelRole, label_3);
-
-        textEdit = new QTextEdit(formLayoutWidget);
-        textEdit->setObjectName(QStringLiteral("textEdit"));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(textEdit->sizePolicy().hasHeightForWidth());
-        textEdit->setSizePolicy(sizePolicy2);
-
-        formLayout->setWidget(3, QFormLayout::FieldRole, textEdit);
 
         label_4 = new QLabel(formLayoutWidget);
         label_4->setObjectName(QStringLiteral("label_4"));
@@ -136,6 +140,19 @@ public:
         comboBox->setModelColumn(0);
 
         formLayout->setWidget(4, QFormLayout::FieldRole, comboBox);
+
+        textEdit = new QTextEdit(formLayoutWidget);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+        sizePolicy.setHeightForWidth(textEdit->sizePolicy().hasHeightForWidth());
+        textEdit->setSizePolicy(sizePolicy);
+        textEdit->setMinimumSize(QSize(160, 80));
+        textEdit->setMaximumSize(QSize(200, 100));
+        textEdit->setSizeIncrement(QSize(0, 0));
+        textEdit->setBaseSize(QSize(0, 0));
+        textEdit->viewport()->setProperty("cursor", QVariant(QCursor(Qt::CrossCursor)));
+        textEdit->setLineWidth(0);
+
+        formLayout->setWidget(3, QFormLayout::FieldRole, textEdit);
 
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
@@ -155,15 +172,12 @@ public:
         comboBox_2 = new QComboBox(tab_2);
         comboBox_2->setObjectName(QStringLiteral("comboBox_2"));
         comboBox_2->setGeometry(QRect(138, 170, 81, 20));
-        QSizePolicy sizePolicy3(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(comboBox_2->sizePolicy().hasHeightForWidth());
-        comboBox_2->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(comboBox_2->sizePolicy().hasHeightForWidth());
+        comboBox_2->setSizePolicy(sizePolicy2);
         tabWidget->addTab(tab_2, QString());
-
-        horizontalLayout->addWidget(tabWidget);
-
 
         retranslateUi(EditPropertyDialog);
 
